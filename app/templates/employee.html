@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-md-row gap-3">
+    <h2>Employee Management</h2>
+    <a href="{{ url_for('employee.employeeAdd') }}" class="btn btn-primary" data-bs-toggle="tooltip" title="Add a new employee"><i class="bi bi-plus-lg"></i> Add Employee</a>
+</div>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Name</label>
+                <input type="search" name="name" value="{{ search_name }}" class="form-control" placeholder="Search by name">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Email</label>
+                <input type="search" name="email" value="{{ search_email }}" class="form-control" placeholder="Search by email">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Department</label>
+                <select name="department" class="form-select">
+                    <option value="">All Departments</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept }}" {% if search_department == dept %}selected{% endif %}>{{ dept }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Min Salary</label>
+                <input type="number" step="0.01" name="min_salary" value="{{ min_salary }}" class="form-control" placeholder="Min salary">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Max Salary</label>
+                <input type="number" step="0.01" name="max_salary" value="{{ max_salary }}" class="form-control" placeholder="Max salary">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Sort By</label>
+                <select name="sort_by" class="form-select">
+                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+                    <option value="email" {% if sort_by == 'email' %}selected{% endif %}>Email</option>
+                    <option value="department" {% if sort_by == 'department' %}selected{% endif %}>Department</option>
+                    <option value="salary" {% if sort_by == 'salary' %}selected{% endif %}>Salary</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Order</label>
+                <select name="sort_order" class="form-select">
+                    <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+                    <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <a href="{{ url_for('employee.employee_list') }}" class="btn btn-outline-secondary w-100">Reset</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-2 flex-column flex-md-row gap-2">
+    <div>
+        <strong>Showing</strong> {{ employees|length }} of {{ total_records }} records
+    </div>
+    <div>
+        <small class="text-muted">Page {{ current_page }} of {{ pagination.pages or 1 }}</small>
+    </div>
+</div>
+
+{% if employees %}
+<div class="table-responsive responsive-table">
+<table class="table table-hover table-bordered align-middle mb-0">
+    <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Email</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in employees %}
+        <tr>
+            <td>{{ emp.name }}</td>
+            <td>{{ emp.department }}</td>
+            <td>{{ "{:.2f}".format(emp.salary) }}</td>
+            <td>{{ emp.email }}</td>
+            <td class="text-center action-buttons">
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <a href="{{ url_for('employee.employeeDetail', id=emp.id) }}" class="btn btn-sm btn-success" data-bs-toggle="tooltip" title="View employee details"><i class="bi bi-eye"></i> Detail</a>
+                    <a href="{{ url_for('employee.employeeUpdate', id=emp.id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit this employee"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a href="{{ url_for('employee.employeeDelete', id=emp.id) }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Delete this employee" onclick="return confirm('Delete this employee?');"><i class="bi bi-trash"></i> Delete</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="Employee pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            <a class="page-link" href="?{% for key, value in query_params.items() %}{{ key }}={{ value|urlencode }}&{% endfor %}page={{ pagination.prev_num }}" tabindex="-1">Previous</a>
+        </li>
+
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+        {% if page_num %}
+        <li class="page-item {% if page_num == current_page %}active{% endif %}">
+            <a class="page-link" href="?{% for key, value in query_params.items() %}{{ key }}={{ value|urlencode }}&{% endfor %}page={{ page_num }}">{{ page_num }}</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+        {% endif %}
+        {% endfor %}
+
+        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            <a class="page-link" href="?{% for key, value in query_params.items() %}{{ key }}={{ value|urlencode }}&{% endfor %}page={{ pagination.next_num }}">Next</a>
+        </li>
+    </ul>
+</nav>
+</div>
+{% else %}
+<div class="alert alert-info">No employees found for the selected search, filter, or sort criteria.</div>
+{% endif %}
+
+{% endblock %}

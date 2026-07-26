@@ -1,0 +1,147 @@
+body {
+    background: linear-gradient(135deg, #f7f4ff 0%, #eef7ff 100%);
+    color: #243447;
+    min-height: 100vh;
+}
+
+main {
+    padding-top: 1.2rem;
+}
+
+.navbar {
+    box-shadow: 0 2px 20px rgba(36, 52, 71, 0.08);
+}
+
+.navbar-brand {
+    letter-spacing: 0.04em;
+    color: #5b3df2 !important;
+}
+
+.nav-link {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #5b3df2 !important;
+    transform: translateY(-1px);
+}
+
+footer {
+    background: #ffffff;
+    border-top: 1px solid #dee2e6;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.card {
+    border: none;
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(91, 61, 242, 0.12) !important;
+}
+
+.hero-panel {
+    background: linear-gradient(120deg, #5b3df2 0%, #7c6cf7 50%, #3fa7ff 100%);
+    color: white;
+    border-radius: 1.2rem;
+    padding: 2rem;
+    box-shadow: 0 1rem 2rem rgba(91, 61, 242, 0.22);
+}
+
+.table {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.table thead {
+    background: #f1f5ff;
+}
+
+.action-buttons .btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(120deg, #5b3df2 0%, #7c6cf7 100%);
+    border: none;
+}
+
+.btn-success {
+    background: linear-gradient(120deg, #16a34a 0%, #22c55e 100%);
+    border: none;
+}
+
+.btn-warning {
+    background: linear-gradient(120deg, #f59e0b 0%, #fbbf24 100%);
+    border: none;
+    color: #1f2937;
+}
+
+.btn-danger {
+    background: linear-gradient(120deg, #ef4444 0%, #f87171 100%);
+    border: none;
+}
+
+.btn-outline-secondary {
+    border-color: #c7bfff;
+    color: #5b3df2;
+}
+
+.btn-primary,
+.btn-success,
+.btn-warning,
+.btn-danger,
+.btn-outline-secondary {
+    min-width: 110px;
+    border-radius: 0.7rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.75rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+    .table-responsive table {
+        font-size: 0.9rem;
+    }
+    .table thead {
+        display: none;
+    }
+    .table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+    .table tbody td {
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        padding: 0.5rem 0;
+    }
+    .table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #6c757d;
+        margin-right: 1rem;
+    }
+    .table tbody td:last-child {
+        justify-content: center;
+    }
+}
+

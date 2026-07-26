@@ -348,9 +348,9 @@ If this repository helped you learn Flask, consider giving it a ⭐ on GitHub.
 
 # 👨‍💻 Author
 
-**Gagan Rajput**
+**Ranadheer Veldi**
 
 GitHub:
-https://github.com/Gagan47raj
+https://github.com/ranadheerveldi
 
 Happy Coding! 🚀
